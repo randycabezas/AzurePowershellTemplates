@@ -15,6 +15,8 @@
     Optional. Default Azure region (e.g., eastus, westus2). Defaults to 'northcentralus' for this particular account.
 .PARAMETER EnvironmentTag
     Optional. Defaults to 'Dev' so that things are not marked as Prod all the time.
+.PARAMETER TemplateFile
+    Optional. In case you need to load a file.
 .EXAMPLE
     .\AzurePowershellTemplate.ps1 -SubscriptionId "00000000-0000-0000-0000-000000000000" -Verbose
 #>
@@ -36,7 +38,10 @@ param (
     [string]$Location = "northcentralus",
 
     [Parameter(Mandatory = $false)]
-    [string]$EnvironmentTag = "Dev"
+    [string]$EnvironmentTag = "Dev",
+
+    [Parameter(Mandatory = $false)]
+    [string]$TemplateFile
 )
 
 # Stop execution on unhandled errors to prevent partial/broken runs
