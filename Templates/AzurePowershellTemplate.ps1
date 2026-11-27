@@ -1,4 +1,18 @@
 <#
+=============================================================================
+Azure Powershell Template - General Template win Variables assigned 
+Dynamically.
+-----------------------------------------------------------------------------
+Author..........: Randall Cabezas
+					(https://www.linkedin.com/in/randallcabezas)
+					(https://github.com/randycabezas)
+				  AI: Assisted in Code Clean Up
+-----------------------------------------------------------------------------
+THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+=============================================================================
+
 .SYNOPSIS
     Base template for Azure administration scripts.
 .DESCRIPTION
@@ -48,25 +62,33 @@ param (
 $ErrorActionPreference = 'Stop'
 
 #region 1. Module & Connection Verification
-Write-Verbose "Checking for Az.Accounts module..."
+Write-Verbose "Checking for Powershell Module: Az.Accounts ..."
 if (-not (Get-Module -ListAvailable -Name Az.Accounts)) {
     throw "The 'Az.Accounts' module is not installed. Run 'Install-Module -Name Az -Repository PSGallery -Force' first."
 }
 
+#
+# Let's See if we are connected already by looking at context
+#
 $azContext = Get-AzContext
 
+#
+# If not connected then we will drop into this sequence.
+#
 if (-not $azContext -or -not $azContext.Account) {
     Write-Warning "No active Azure session found."
     $connectChoice = Read-Host "Would you like to connect to Azure now? (Y/N)"
-    
+    # Confirm they want to connect first
     if ($connectChoice -match '^[Yy]') {
         try {
+            # Load passed parameters if exist.
             $connectParams = @{}
             if ($TenantId) { $connectParams['TenantId'] = $TenantId }
             if ($SubscriptionId) { $connectParams['SubscriptionId'] = $SubscriptionId }
             
             Write-Host "Launching Azure authentication prompt..." -ForegroundColor Cyan
             
+            # Connect to Azure using variables provided or none if not.
             # Discard the AzureRmProfile output, then explicitly pull the flat AzureContext
             Connect-AzAccount @connectParams | Out-Null
             $azContext = Get-AzContext
@@ -96,7 +118,7 @@ if ($SubscriptionId -and ($azContext.Subscription.Id -ne $SubscriptionId)) {
         throw "Unable to set context to Subscription '$SubscriptionId'. Verify permissions. Details: $_"
     }
 }
-#endregion
+#endregion 1.
 
 
 #region 2. Populate Common Environment & Context Variables
@@ -106,7 +128,10 @@ $CurrentSubName        = $azContext.Subscription.Name
 $CurrentUser           = $azContext.Account.Id
 $CurrentEnvironment    = $azContext.Environment.Name # e.g., AzureCloud, AzureUSGovernment
 
+#
 # Standardized Metadata & Naming Helpers
+# For use in your main script below.
+#
 $Timestamp             = (Get-Date).ToString("yyyyMMdd-HHmm")
 $DefaultTags           = @{
     Environment = $EnvironmentTag
@@ -140,7 +165,7 @@ Write-Host " Tenant       : $CurrentTenantId"
 Write-Host " Location     : $Location"
 if ($ResourceGroupName) { Write-Host " Target RG    : $ResourceGroupName" }
 Write-Host "==========================================================" -ForegroundColor DarkGray
-#endregion
+#endregion 2.
 
 #region 3. Main Script Execution
 try {
@@ -162,4 +187,12 @@ catch {
 finally {
     Write-Verbose "Script execution completed."
 }
-#endregion
+#endregion 3.
+
+#
+# Final region. Add clean up steps if needed.
+#region final.
+
+
+
+#endregion final.
