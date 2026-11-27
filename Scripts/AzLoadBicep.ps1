@@ -1,4 +1,22 @@
 <#
+=============================================================================
+Azure Bicep File loader - Interactive Loader
+
+Interactive Bicep deployment utility built on top of the base template. 
+Lets you visually select a target Resource Group and browse for a .bicep 
+template, validates it against Azure, and deploys with confirmation 
+guardrails. 
+
+-----------------------------------------------------------------------------
+Author..........: Randall Cabezas
+					(https://www.linkedin.com/in/randallcabezas)
+					(https://github.com/randycabezas)
+				  AI: Assisted in Code Clean Up
+-----------------------------------------------------------------------------
+THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+=============================================================================
 .SYNOPSIS
     Base template for Azure administration scripts.
 .DESCRIPTION
@@ -307,3 +325,12 @@ finally {
     Write-Verbose "Script execution completed."
 }
 #endregion
+
+#region final.
+#
+# Final region. Add clean up steps if needed.
+
+
+
+
+#endregion final.

@@ -1,0 +1,20 @@
+# OS & Editor Noise
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Environment & Secrets
+.env
+.env.*
+
+# Python Virtual Environments & Cache
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# PowerShell Specifics
+*.log
